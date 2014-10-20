@@ -12,9 +12,16 @@ best <- function(state, outcome) {
         }
         
         data <- read.csv("outcome-of-care-measures.csv", colClasses="character")
+        data[,11] <- as.numeric(data[,11])
+        data <-  data[order(data$Hospital.Name),]
         if (outcome == "heart attack")
         {
-                outData <- "heart attack"
+                heartsubset <- data[,c(2,11)]
+                bestHospital <- subset[which.min()]
+                
+             #   mindeaths <- min(data[,11], na.rm = T)
+             #   > minhospitals <- data([,11]) == mindeaths      
+
         }
 
         outData
