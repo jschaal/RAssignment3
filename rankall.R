@@ -45,9 +45,9 @@ rankall <- function(outcome, num = "best") {
     subdata <- data[,c(hospitalColumn,colToUse,stateColumn)]
     subdata[,2] <- suppressWarnings(as.numeric(subdata[,2]))
     names(subdata) <- resultRowNames
-    
-    for (state in state.abb) {
-        #statedata <- subset(subdata,subdata$state==state)
+
+    stateList <- unique(subdata[,3])
+    for (state in stateList) {
         stateRecords <- subdata[,3] == state
         statedata <- subdata[stateRecords,]
         
@@ -66,17 +66,12 @@ rankall <- function(outcome, num = "best") {
         
         if (is.na(stateResults[1,2]))
         {
-            #browser()
-            stateResults <- data.frame("<NA>",state)
-            names(stateResults) <- c("hospital","state")
+            stateResults <- data.frame(hospital="<NA>",state=state)
         }
         results <- rbind(results,stateResults)
     }
-    #browser()
-    #    baddata <- is.na(results[,2]) 
-    #    results  <- results[!baddata,c(1,3)]
-    #results  <- results[,c(1,3)]
-    #names(results) <- c("hospital","state")
+    
+    results <- results[order(results[,2]),]
     return(results)
     
 }
